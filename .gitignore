@@ -1,3 +1,7 @@
 node_modules
 __tests__
 .aws-sam
+src/handlers/records.json
+template.yaml
+samconfig.toml
+env.json
