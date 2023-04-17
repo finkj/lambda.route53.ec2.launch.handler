@@ -1,0 +1,28 @@
+{
+    "name": "lambda-ec2-launch-handler",
+    "description": "Lambda Function will react on a EC2 Instance Launch and configure Route 53 accordingly",
+    "version": "0.0.1",
+    "private": true,
+    "devDependencies": {
+        "jest": "^29.2.1"
+    },
+    "scripts": {
+        "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+    },
+    "jest": {
+        "testMatch": [
+            "**/__tests__/**/*.[jt]s?(x)",
+            "**/?(*.)+(spec|test).[jt]s?(x)",
+            "**/__tests__/**/*.mjs?(x)",
+            "**/?(*.)+(spec|test).mjs?(x)"
+        ],
+        "moduleFileExtensions": [
+            "mjs",
+            "js"
+        ]
+    },
+    "dependencies": {
+        "@aws-sdk/client-ec2": "^3.312.0",
+        "@aws-sdk/client-route-53": "^3.312.0"
+    }
+}

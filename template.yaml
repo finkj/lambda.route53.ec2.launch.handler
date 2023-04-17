@@ -1,0 +1,60 @@
+# This is the SAM template that represents the architecture of your serverless application
+# https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-template-basics.html
+
+# The AWSTemplateFormatVersion identifies the capabilities of the template
+# https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/format-version-structure.html
+AWSTemplateFormatVersion: 2010-09-09
+Description: >-
+  ec2-launch-handler
+
+# Transform section specifies one or more macros that AWS CloudFormation uses to process your template
+# https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-section-structure.html
+Transform:
+- AWS::Serverless-2016-10-31
+
+Parameters:
+  Region:
+    Type: "String"
+    Default: "eu-central-1"
+  HostedZoneId:
+    Type: "String"
+    Default: ""
+  TagsFilter: 
+    Type: "String"
+    Default: "MyApplication"
+# Resources declares the AWS resources that you want to include in the stack
+# https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html
+Resources:
+  # Each Lambda function is defined by properties:
+  # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+
+  # This is a Lambda function config associated with the source code: hello-from-lambda.js
+  EC2LaunchFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: handlers/app.handler
+      CodeUri: src/
+      Runtime: nodejs18.x
+      Architectures:
+        - x86_64
+      MemorySize: 256
+      Timeout: 100
+      Description: Lambda Function will react on a EC2 Instance Launch and configure Route 53 accordingly.
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - AmazonEC2ReadOnlyAccess
+        - arn:aws:iam::000000000000:policy/Policy_To_Manage_Route53_MyApplication
+      Environment:
+        Variables:
+          Region: !Ref Region
+          HostedZoneId: !Ref HostedZoneId
+          TagsFilter: !Ref TagsFilter
+      Events:
+        InstanceLaunchHandler:
+          Type: EventBridgeRule
+          Properties:
+            Pattern:
+              source:
+                - aws.autoscaling
+              detail-type:
+                - EC2 Instance Launch Successful
