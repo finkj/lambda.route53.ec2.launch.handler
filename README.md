@@ -62,8 +62,6 @@ The Lambda function uses these environment variables (configured in template.yam
 
 ## Deployment
 
-## Deployment
-
 1. **Update Configuration Files**:
    - Edit `src/handlers/records.json` with your domain names
    - Update `template.yaml` parameters (Region, HostedZoneId, TagsFilter)
@@ -82,8 +80,6 @@ During the guided deployment, you'll be prompted for:
 - **Confirm changes before deploy**: Review changes before applying
 - **Allow SAM CLI IAM role creation**: Required for Lambda execution role
 - **Save arguments to samconfig.toml**: Save configuration for future deployments
-
-## Local Testing
 
 ## Local Testing
 
