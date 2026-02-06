@@ -34,7 +34,7 @@ Resources:
     Properties:
       Handler: handlers/app.handler
       CodeUri: src/
-      Runtime: nodejs18.x
+      Runtime: nodejs22.x
       Architectures:
         - x86_64
       MemorySize: 256
